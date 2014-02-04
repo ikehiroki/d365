@@ -29,7 +29,7 @@ class BooksController extends AppController {
      */
     public $presetVars = array(
         'Section' => array('type' => 'value'),
-        'name' => array('type' => 'like'),
+        'name' => array('type' => 'like', 'empty' => true, 'encode' => true),
         'Location' => array('type' => 'value'),
     );
     public $uses = array('Book', 'SectionsBook');
@@ -47,7 +47,7 @@ class BooksController extends AppController {
     public function index() {
         $this->Book->recursive = 1;
         $this->Prg->commonProcess();
-        $this->paginate = array('conditions' => $this->Book->parseCriteria($this->passedArgs), 'fields' => array('Book.*','Location.*','Picture.*'),'group' => array('Book.id','Location.id','Picture.id','SectionsBook.book_id'), 'order' => 'Book.kana_name', 'limit' => 5);
+        $this->paginate = array('conditions' => $this->Book->parseCriteria($this->passedArgs), 'fields' => array('Book.*', 'Location.*', 'Picture.*'), 'group' => array('Book.id', 'Location.id', 'Picture.id', 'SectionsBook.book_id'), 'order' => 'Book.kana_name', 'limit' => 5);
         $this->set('books', $this->Paginator->paginate());
         $locations = $this->Book->Location->find('list');
         $sections = $this->Book->Section->find('list');
